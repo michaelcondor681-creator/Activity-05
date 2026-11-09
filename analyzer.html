@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emberfall | Hero Section</title>
+  <style>
+    /* ---------- Reset & Variables ---------- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0b0709;
+      --crimson: #d7263d;
+      --crimson-dark: #7a0f1f;
+      --ember: #ff7a3d;
+      --text: #f4ecee;
+      --muted: #b9a9ad;
+    }
+
+    body {
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ---------- Header / Navigation (Flexbox) ---------- */
+    .site-header {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 6%;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+    .logo span { color: var(--crimson); }
+
+    .nav-list {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-list a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding-bottom: 4px;
+      border-bottom: 2px solid transparent;
+      transition: color .25s, border-color .25s;
+    }
+    .nav-list a:hover,
+    .nav-list a.active {
+      color: var(--ember);
+      border-color: var(--ember);
+    }
+
+    /* ---------- Hero Section (CSS Grid) ---------- */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 40px;
+      padding: 120px 6% 60px;
+      background:
+        radial-gradient(circle at 75% 45%, rgba(215,38,61,.45), transparent 55%),
+        radial-gradient(circle at 10% 90%, rgba(255,122,61,.15), transparent 45%),
+        linear-gradient(160deg, #1a0a10 0%, var(--bg) 70%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* subtle diagonal texture */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        120deg, transparent 0 38px, rgba(255,255,255,.025) 38px 40px);
+      pointer-events: none;
+    }
+
+    .hero-content { position: relative; z-index: 2; }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: .8rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 6vw, 5rem);
+      line-height: 1.05;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    .hero h1 .highlight {
+      color: var(--crimson);
+      text-shadow: 0 0 28px rgba(215,38,61,.55);
+    }
+
+    .hero p {
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 34px;
+    }
+
+    /* ---------- Buttons ---------- */
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 46px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: transform .2s, box-shadow .2s, background .2s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+      color: #fff;
+      box-shadow: 0 6px 24px rgba(215,38,61,.4);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(215,38,61,.6); }
+    .btn-outline {
+      color: var(--text);
+      border: 2px solid rgba(255,255,255,.35);
+    }
+    .btn-outline:hover { border-color: var(--ember); color: var(--ember); transform: translateY(-3px); }
+
+    /* ---------- Stats (Flexbox) ---------- */
+    .stats {
+      display: flex;
+      gap: 40px;
+    }
+    .stat strong {
+      display: block;
+      font-size: 1.8rem;
+      color: var(--text);
+    }
+    .stat span {
+      font-size: .75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ---------- Hero Visual (pure CSS emblem) ---------- */
+    .hero-visual {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .emblem {
+      position: relative;
+      width: min(380px, 80%);
+      aspect-ratio: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .diamond {
+      position: absolute;
+      width: 70%;
+      height: 70%;
+      transform: rotate(45deg);
+      border: 3px solid var(--crimson);
+      background: linear-gradient(135deg, rgba(215,38,61,.35), rgba(0,0,0,.4));
+      box-shadow: 0 0 60px rgba(215,38,61,.55), inset 0 0 40px rgba(215,38,61,.35);
+    }
+    .diamond.outer {
+      width: 95%;
+      height: 95%;
+      border-color: rgba(255,122,61,.5);
+      background: none;
+      box-shadow: none;
+      animation: spin 24s linear infinite;
+    }
+    .flame {
+      position: relative;
+      width: 90px;
+      height: 130px;
+      background: linear-gradient(to top, var(--crimson), var(--ember));
+      border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
+      clip-path: polygon(50% 0%, 85% 40%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 15% 40%);
+      filter: drop-shadow(0 0 20px var(--ember));
+      animation: flicker 2.4s ease-in-out infinite;
+    }
+    .emblem-label {
+      position: absolute;
+      bottom: -6%;
+      font-size: .8rem;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    @keyframes spin { to { transform: rotate(405deg); } }
+    @keyframes flicker {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.07) translateY(-4px); }
+    }
+
+    /* ---------- Features strip (Grid) ---------- */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding: 60px 6%;
+      background: #120a0d;
+    }
+    .feature {
+      padding: 26px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-left: 4px solid var(--crimson);
+      background: rgba(255,255,255,.02);
+    }
+    .feature h3 {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+    .feature p { color: var(--muted); font-size: .95rem; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; text-align: center; padding-top: 140px; }
+      .hero p { margin-inline: auto; }
+      .cta-group, .stats { justify-content: center; }
+      .features { grid-template-columns: 1fr; }
+      .nav-list { gap: 16px; }
+    }
+    @media (max-width: 600px) {
+      .site-header { flex-direction: column; gap: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header with navigation -->
+  <header class="site-header">
+    <div class="logo">Ember<span>fall</span></div>
+    <nav>
+      <ul class="nav-list">
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#support">Support</a></li>
+        <li><a href="#heroes">Heroes</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero section -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <span class="eyebrow">Free to play &bull; 5v5 Arena</span>
+        <h1>Rise from the <span class="highlight">Ashes</span></h1>
+        <p>
+          Command legendary champions, master the battlefield and lead your
+          team to victory in a fast, strategic arena battle where every
+          match is a new story.
+        </p>
+
+        <div class="cta-group">
+          <a href="#play" class="btn btn-primary">Play Now</a>
+          <a href="#trailer" class="btn btn-outline">Watch Trailer</a>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><strong>120+</strong><span>Champions</span></div>
+          <div class="stat"><strong>10M</strong><span>Players</span></div>
+          <div class="stat"><strong>24/7</strong><span>Live Matches</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="emblem">
+          <div class="diamond outer"></div>
+          <div class="diamond"></div>
+          <div class="flame"></div>
+          <span class="emblem-label">Emberfall</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Supporting section -->
+    <section class="features" id="about">
+      <div class="feature">
+        <h3>Product</h3>
+        <p>A deep, competitive arena game with endless strategies and playstyles.</p>
+      </div>
+      <div class="feature" id="support">
+        <h3>Support</h3>
+        <p>Guides, tutorials and a friendly community to help you improve fast.</p>
+      </div>
+      <div class="feature" id="heroes">
+        <h3>Heroes</h3>
+        <p>Choose from warriors, mages and rogues, each with unique abilities.</p>
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>
